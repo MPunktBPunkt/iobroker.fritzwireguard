@@ -1,0 +1,91 @@
+{
+  "common": {
+    "name": "fritzwireguard",
+    "version": "0.2.0",
+    "news": {
+      "0.1.0": {
+        "en": "Initial release",
+        "de": "Erstveröffentlichung"
+      }
+    },
+    "title": "FritzWireguard",
+    "titleLang": {
+      "de": "FritzWireguard — WireGuard VPN zu FritzBox",
+      "en": "FritzWireguard — WireGuard VPN to FritzBox"
+    },
+    "desc": {
+      "de": "Stellt per WireGuard VPN eine Verbindung zu einer entfernten FritzBox her und liest Geräte, WAN-Status und weitere Daten via TR-064 aus.",
+      "en": "Connects to a remote FritzBox via WireGuard VPN and reads devices, WAN status and more via TR-064."
+    },
+    "authors": [
+      "MPunktBPunkt"
+    ],
+    "keywords": [
+      "wireguard",
+      "fritzbox",
+      "vpn",
+      "tr-064",
+      "network"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "admin/fritzwireguard.svg",
+    "enabled": true,
+    "extIcon": "admin/fritzwireguard.svg",
+    "readme": "https://github.com/MPunktBPunkt/iobroker.fritzwireguard/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "network",
+    "messagebox": true,
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.0"
+      }
+    ],
+    "globalDependencies": [],
+    "connectionType": "local",
+    "dataSource": "push"
+  },
+  "native": {
+    "webPort": 8094,
+    "fritzHost": "192.168.178.1",
+    "fritzPort": 49000,
+    "fritzUser": "",
+    "fritzPass": "",
+    "wgConfig": "",
+    "autoConnect": true,
+    "autoReconnect": true,
+    "wgDisconnectOnStop": true,
+    "pollInterval": 60,
+    "logBuffer": 500,
+    "tunnels": []
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Adapter-Info"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "name": "Adapter verbunden",
+        "type": "boolean",
+        "role": "indicator.connected",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
+}

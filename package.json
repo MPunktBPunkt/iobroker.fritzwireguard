@@ -1,0 +1,22 @@
+{
+  "name":        "iobroker.fritzwireguard",
+  "version":     "0.2.0",
+  "description": "ioBroker Adapter: WireGuard VPN zu FritzBox via TR-064",
+  "author":      "MPunktBPunkt",
+  "license":     "MIT",
+  "main":        "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.2.2"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "keywords": ["iobroker", "adapter", "wireguard", "fritzbox", "vpn"],
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/MPunktBPunkt/iobroker.fritzwireguard.git"
+  }
+}
