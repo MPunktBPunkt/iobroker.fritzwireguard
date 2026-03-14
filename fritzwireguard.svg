@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e1628"/>
+      <stop offset="100%" style="stop-color:#1a2744"/>
+    </linearGradient>
+    <linearGradient id="acc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2196F3"/>
+      <stop offset="100%" style="stop-color:#00bcd4"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="18" fill="url(#bg)"/>
+  <!-- Shield -->
+  <path d="M50 15 L72 25 L72 52 Q72 68 50 78 Q28 68 28 52 L28 25 Z"
+        fill="none" stroke="url(#acc)" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Lock body -->
+  <rect x="40" y="48" width="20" height="15" rx="3" fill="url(#acc)"/>
+  <!-- Lock shackle -->
+  <path d="M44 48 L44 42 Q44 36 50 36 Q56 36 56 42 L56 48"
+        fill="none" stroke="url(#acc)" stroke-width="3" stroke-linecap="round"/>
+  <!-- Key hole dot -->
+  <circle cx="50" cy="54" r="2.5" fill="#0e1628"/>
+  <!-- Wave lines (WireGuard symbol) -->
+  <path d="M33 86 Q38 82 43 86 Q48 90 53 86 Q58 82 63 86 Q68 90 73 86"
+        fill="none" stroke="#2196F3" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
