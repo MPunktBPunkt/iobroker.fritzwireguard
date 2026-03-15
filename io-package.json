@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "news": {
+      "0.2.3": {
+        "en": "Bugfix: jsonConfig schema errors (textarea instead of text+multiline, removed invalid properties); icon path fixed",
+        "de": "Bugfix: jsonConfig Schema-Fehler (textarea statt text+multiline, ungueltige Properties entfernt); Icon-Pfad korrigiert"
+      },
       "0.2.2": {
         "en": "Bugfix: SIGKILL on stop (onUnload timeout guard, server.closeAllConnections); onReady wrapped in try/catch; this.config guard in _log",
         "de": "Bugfix: SIGKILL beim Stopp (onUnload Timeout-Guard, server.closeAllConnections); onReady in try/catch; this.config Guard in _log"
@@ -42,7 +46,7 @@
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "main.js",
-    "icon": "admin/fritzwireguard.svg",
+    "icon": "fritzwireguard.svg",
     "enabled": true,
     "extIcon": "https://raw.githubusercontent.com/MPunktBPunkt/iobroker.fritzwireguard/main/admin/fritzwireguard.svg",
     "readme": "https://github.com/MPunktBPunkt/iobroker.fritzwireguard/blob/main/README.md",
