@@ -97,8 +97,13 @@ function wgUp(cfgPath) {
 }
 
 function wgDown(cfgPath) {
-    return new Promise((resolve, reject) => {
-        exec('wg-quick down ' + cfgPath + ' 2>&1', (err, out) => err ? reject(new Error(out || err.message)) : resolve(out));
+    return new Promise((resolve) => {
+        // Timeout: wg-quick down darf max 4s blockieren
+        const timer = setTimeout(() => resolve('timeout'), 4000);
+        exec('wg-quick down ' + cfgPath + ' 2>&1', (_err, out) => {
+            clearTimeout(timer);
+            resolve(out || '');
+        });
     });
 }
 
@@ -206,7 +211,7 @@ class FritzWireguard extends Adapter {
     _log(level, category, msg) {
         const e = { ts: Date.now(), level, category, msg };
         this._logBuffer.unshift(e);
-        if (this._logBuffer.length > (this.config.logBuffer || 500)) this._logBuffer.pop();
+        if (this._logBuffer.length > ((this.config && this.config.logBuffer) || 500)) this._logBuffer.pop();
         // this.log kann in fruehen Initialisierungsphasen noch undefined sein
         const l = this.log;
         if (!l) { console.log('[' + level + '][' + category + '] ' + msg); return; }
@@ -483,7 +488,7 @@ class FritzWireguard extends Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.1'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.2'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {
@@ -692,32 +697,73 @@ class FritzWireguard extends Adapter {
 
     // Lifecycle
     async onReady() {
-        this._log('SYSTEM', 'SYSTEM', 'FritzWireguard v' + this._version() + ' startet \u2026');
-        await this._initStates();
+        try {
+            this._log('SYSTEM', 'SYSTEM', 'FritzWireguard v' + this._version() + ' startet \u2026');
+            await this._initStates();
 
-        this._tunnelMgr = new TunnelManager(this._log.bind(this));
-        this._tunnelMgr.startAll(this.config.tunnels || []);
+            this._tunnelMgr = new TunnelManager(this._log.bind(this));
+            this._tunnelMgr.startAll(this.config.tunnels || []);
 
-        this._startServer();
-        if (this.config.autoConnect) await this._connectWg();
-        await this._poll();
+            this._startServer();
+            if (this.config.autoConnect) await this._connectWg();
+            await this._poll();
 
-        const iv = Math.max(30, parseInt(this.config.pollInterval) || 60);
-        this._pollTimer = setInterval(() => this._poll(), iv * 1000);
+            const iv = Math.max(30, parseInt(this.config.pollInterval) || 60);
+            this._pollTimer = setInterval(() => this._poll(), iv * 1000);
+        } catch (e) {
+            this._log('ERROR', 'SYSTEM', 'Kritischer Fehler in onReady: ' + e.message);
+        }
     }
-
     onStateChange(id, state) {
         if (state && !state.ack) this._log('INFO', 'STATE', id + ' = ' + state.val);
     }
 
-    async onUnload(callback) {
-        if (this._pollTimer)  clearInterval(this._pollTimer);
-        if (this._tunnelMgr)  this._tunnelMgr.stopAll();
-        if (this._server)     this._server.close();
-        if (this.config.wgDisconnectOnStop) await this._disconnectWg();
-        if (this._wgCfgPath && fs.existsSync(this._wgCfgPath))
-            try { fs.unlinkSync(this._wgCfgPath); } catch (_) {}
-        callback();
+    onUnload(callback) {
+        // Sicherheits-Timeout: callback IMMER nach 3s aufrufen
+        // verhindert SIGKILL durch ioBroker bei haengendem onUnload
+        const done = (() => {
+            let called = false;
+            return () => { if (!called) { called = true; callback(); } };
+        })();
+        const safetyTimer = setTimeout(done, 8000); // stopTimeout=10s, wir rufen vorher auf
+
+        (async () => {
+            try {
+                if (this._pollTimer) clearInterval(this._pollTimer);
+                if (this._tunnelMgr) this._tunnelMgr.stopAll();
+
+                // HTTP-Server: alle Verbindungen aktiv schliessen
+                if (this._server) {
+                    try {
+                        // Node 18+ hat closeAllConnections()
+                        if (typeof this._server.closeAllConnections === 'function') {
+                            this._server.closeAllConnections();
+                        }
+                        this._server.close();
+                    } catch (_) {}
+                }
+
+                // WireGuard trennen (mit eigenem Timeout)
+                const wgDisconnect = this.config && this.config.wgDisconnectOnStop;
+                if (wgDisconnect) {
+                    await Promise.race([
+                        this._disconnectWg(),
+                        new Promise(r => setTimeout(r, 3000))
+                    ]);
+                }
+
+                // Temp-Config loeschen
+                if (this._wgCfgPath && fs.existsSync(this._wgCfgPath)) {
+                    try { fs.unlinkSync(this._wgCfgPath); } catch (_) {}
+                }
+            } catch (e) {
+                const l = this.log;
+                if (l) l.warn('[SYSTEM] onUnload Fehler: ' + e.message);
+            } finally {
+                clearTimeout(safetyTimer);
+                done();
+            }
+        })();
     }
 }
 

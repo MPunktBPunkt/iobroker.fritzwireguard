@@ -1,9 +1,9 @@
 # ioBroker FritzWireguard Adapter
 
-[![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
+[![Version](https://img.shields.io/badge/version-0.2.2-blue.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D16-brightgreen.svg)](https://nodejs.org)
-[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
+[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
 
 Verbindet ioBroker via **WireGuard VPN** mit einer entfernten FritzBox. Der Adapter stellt
 Netzwerkgeräte, WAN-Status und FritzBox-Infos als ioBroker-Datenpunkte bereit und ermöglicht
@@ -54,7 +54,7 @@ sudo chmod 440 /etc/sudoers.d/iobroker-wireguard
 ### Option A – von GitHub
 
 ```bash
-iobroker add https://github.com/MPunktBPunkt/iobroker.fritzwireguard
+iobroker add https://github.com/MPunktBPunkt/iobroker.FritzWireguard
 ```
 
 ### Option B – manuell (offline)
@@ -196,7 +196,14 @@ Im Browser öffnen: `http://<ioBroker-IP>:8094/`
 
 ## Changelog
 
-### 0.2.1 (2026-03-15)
+### 0.2.2 (2026-03-15)
+* **Bugfix:** SIGKILL beim Adapter-Stopp behoben — `onUnload` hat jetzt einen 3-Sekunden-Safety-Timeout, `callback()` wird immer aufgerufen
+* **Bugfix:** Offene HTTP-Verbindungen werden beim Stopp aktiv geschlossen (`closeAllConnections`)
+* **Bugfix:** `wg-quick down` wird mit 2s-Timeout abgesichert, hängt nicht mehr
+* **Bugfix:** `onReady` in `try/catch` — stille Crashes werden jetzt geloggt
+* **Bugfix:** `this.config` Guard in `_log()` — kein Crash mehr wenn config beim Logging noch undefined
+
+### 0.2.2
 * **Bugfix:** Absturz der Einstellungsseite beim Eingeben von Benutzername/Passwort behoben
 * **Sicherheit:** FritzBox-Passwort und WireGuard-Config werden jetzt verschlüsselt im ioBroker-Store gespeichert (`encryptedNative`)
 * **Bugfix:** `this.log` in früher Initialisierungsphase gegen undefined abgesichert

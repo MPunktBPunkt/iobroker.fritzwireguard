@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "news": {
+      "0.2.2": {
+        "en": "Bugfix: SIGKILL on stop (onUnload timeout guard, server.closeAllConnections); onReady wrapped in try/catch; this.config guard in _log",
+        "de": "Bugfix: SIGKILL beim Stopp (onUnload Timeout-Guard, server.closeAllConnections); onReady in try/catch; this.config Guard in _log"
+      },
       "0.2.1": {
         "en": "Bugfix: password field crash in admin settings; encrypted storage for password and WireGuard config; guarded this.log in early init",
         "de": "Bugfix: Absturz Einstellungsseite bei Passwort-Eingabe; verschluesselte Speicherung Passwort + WireGuard-Config; this.log in fruehes Init abgesichert"
@@ -56,7 +60,8 @@
     ],
     "globalDependencies": [],
     "connectionType": "local",
-    "dataSource": "push"
+    "dataSource": "push",
+    "stopTimeout": 10000
   },
   "native": {
     "webPort": 8094,
