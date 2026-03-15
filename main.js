@@ -207,9 +207,12 @@ class FritzWireguard extends Adapter {
         const e = { ts: Date.now(), level, category, msg };
         this._logBuffer.unshift(e);
         if (this._logBuffer.length > (this.config.logBuffer || 500)) this._logBuffer.pop();
-        if (level === 'ERROR') this.log.error('[' + category + '] ' + msg);
-        else if (level === 'WARN') this.log.warn('[' + category + '] ' + msg);
-        else this.log.debug('[' + category + '] ' + msg);
+        // this.log kann in fruehen Initialisierungsphasen noch undefined sein
+        const l = this.log;
+        if (!l) { console.log('[' + level + '][' + category + '] ' + msg); return; }
+        if (level === 'ERROR') l.error('[' + category + '] ' + msg);
+        else if (level === 'WARN') l.warn('[' + category + '] ' + msg);
+        else l.debug('[' + category + '] ' + msg);
     }
 
     // States
@@ -226,9 +229,7 @@ class FritzWireguard extends Adapter {
                     common: { name: chName },
                     native: {}
                 });
-            } catch (e) {
-                this.log.warn('Channel ' + chId + ': ' + e.message);
-            }
+            } catch (_e) { /* channel already exists or non-critical */ }
         }
 
         // States anlegen/aktualisieren
@@ -259,9 +260,7 @@ class FritzWireguard extends Adapter {
                     },
                     native: {}
                 });
-            } catch (e) {
-                this.log.warn('State ' + id + ': ' + e.message);
-            }
+            } catch (_e) { /* state already exists or non-critical */ }
         }
     }
 
@@ -484,7 +483,7 @@ class FritzWireguard extends Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.0'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.1'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {

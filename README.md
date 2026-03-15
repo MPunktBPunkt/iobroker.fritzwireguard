@@ -1,6 +1,6 @@
 # ioBroker FritzWireguard Adapter
 
-[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
+[![Version](https://img.shields.io/badge/version-0.2.1-blue.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D16-brightgreen.svg)](https://nodejs.org)
 [![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
@@ -195,6 +195,11 @@ Im Browser öffnen: `http://<ioBroker-IP>:8094/`
 ---
 
 ## Changelog
+
+### 0.2.1 (2026-03-15)
+* **Bugfix:** Absturz der Einstellungsseite beim Eingeben von Benutzername/Passwort behoben
+* **Sicherheit:** FritzBox-Passwort und WireGuard-Config werden jetzt verschlüsselt im ioBroker-Store gespeichert (`encryptedNative`)
+* **Bugfix:** `this.log` in früher Initialisierungsphase gegen undefined abgesichert
 
 ### 0.2.0 (2026-03-14)
 * **Neu:** TCP Tunnel Manager — selektive Port-Weiterleitung durch VPN für einzelne Adapter

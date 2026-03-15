@@ -29,7 +29,8 @@
           "type": "password",
           "label": "FritzBox Passwort",
           "sm": 12,
-          "md": 6
+          "md": 6,
+          "encrypted": true
         },
         "webPort": {
           "type": "number",
@@ -57,7 +58,8 @@
           "multiline": true,
           "trim": false,
           "sm": 12,
-          "help": "DNS-Zeilen und 0.0.0.0/0 werden automatisch entfernt. Nur das Zielnetz (z. B. 192.168.178.0/24) wird durch den Tunnel geleitet."
+          "help": "DNS-Zeilen und 0.0.0.0/0 werden automatisch entfernt. Nur das Zielnetz (z. B. 192.168.178.0/24) wird durch den Tunnel geleitet.",
+          "encrypted": true
         },
         "autoConnect": {
           "type": "checkbox",

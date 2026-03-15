@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "news": {
+      "0.2.1": {
+        "en": "Bugfix: password field crash in admin settings; encrypted storage for password and WireGuard config; guarded this.log in early init",
+        "de": "Bugfix: Absturz Einstellungsseite bei Passwort-Eingabe; verschluesselte Speicherung Passwort + WireGuard-Config; this.log in fruehes Init abgesichert"
+      },
       "0.2.0": {
         "en": "TCP Tunnel Manager for selective adapter routing through VPN; WireGuard config sanitizer",
         "de": "TCP Tunnel Manager fuer selektives Adapter-Routing durch VPN; WireGuard Config-Sanitizer"
@@ -115,5 +119,9 @@
       },
       "native": {}
     }
+  ],
+  "encryptedNative": [
+    "fritzPass",
+    "wgConfig"
   ]
 }
