@@ -52,10 +52,9 @@
       "label": "WireGuard",
       "items": {
         "wgConfig": {
-          "type": "textarea",
+          "type": "text",
           "label": "WireGuard Config (.conf Inhalt)",
           "sm": 12,
-          "rows": 12,
           "help": "Vollstaendigen Inhalt der WireGuard .conf-Datei einfuegen. DNS-Zeilen und 0.0.0.0/0 werden automatisch entfernt."
         },
         "autoConnect": {

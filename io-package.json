@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "news": {
+      "0.2.4": {
+        "en": "Bugfix: 'textarea' is not a valid ioBroker jsonConfig type - replaced with 'text'",
+        "de": "Bugfix: 'textarea' ist kein gueltiger ioBroker jsonConfig Typ - ersetzt durch 'text'"
+      },
       "0.2.3": {
         "en": "Bugfix: jsonConfig schema errors (textarea instead of text+multiline, removed invalid properties); icon path fixed",
         "de": "Bugfix: jsonConfig Schema-Fehler (textarea statt text+multiline, ungueltige Properties entfernt); Icon-Pfad korrigiert"
