@@ -215,9 +215,13 @@ class FritzWireguard extends Adapter {
         // this.log kann in fruehen Initialisierungsphasen noch undefined sein
         const l = this.log;
         if (!l) { console.log('[' + level + '][' + category + '] ' + msg); return; }
-        if (level === 'ERROR') l.error('[' + category + '] ' + msg);
-        else if (level === 'WARN') l.warn('[' + category + '] ' + msg);
-        else l.debug('[' + category + '] ' + msg);
+        // WICHTIG: debug-Level wird von ioBroker standardmaessig gefiltert!
+        // SYSTEM + INFO -> info, WARN -> warn, ERROR -> error
+        if      (level === 'ERROR')  l.error('[' + category + '] ' + msg);
+        else if (level === 'WARN')   l.warn('[' + category + '] ' + msg);
+        else if (level === 'SYSTEM') l.info('[' + category + '] ' + msg);
+        else if (level === 'INFO')   l.info('[' + category + '] ' + msg);
+        else                         l.debug('[' + category + '] ' + msg);
     }
 
     // States
@@ -488,7 +492,7 @@ class FritzWireguard extends Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.5'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.6'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {
