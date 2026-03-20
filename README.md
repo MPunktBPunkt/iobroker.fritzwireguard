@@ -1,9 +1,9 @@
 # ioBroker FritzWireguard Adapter
 
-[![Version](https://img.shields.io/badge/version-0.2.8-blue.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
+[![Version](https://img.shields.io/badge/version-0.2.9-blue.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D16-brightgreen.svg)](https://nodejs.org)
-[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
+[![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://github.com/MPunktBPunkt/iobroker.fritzwireguard)
 
 Verbindet ioBroker via **WireGuard VPN** mit einer entfernten FritzBox. Der Adapter stellt
 Netzwerkgeräte, WAN-Status und FritzBox-Infos als ioBroker-Datenpunkte bereit und ermöglicht
@@ -204,11 +204,14 @@ Im Browser öffnen: `http://<ioBroker-IP>:8094/`
 ## Update
 
 ```bash
-iobroker url https://github.com/MPunktBPunkt/iobroker.FritzWireguard
+iobroker url https://github.com/MPunktBPunkt/iobroker.fritzwireguard
 iobroker restart fritzwireguard
 ```
 
 ## Changelog
+
+### 0.2.9 (2026-03-15)
+* **Debug:** `console.log` + `uncaughtException` Handler für Startup-Diagnose; GitHub URLs korrigiert (Kleinschreibung)
 
 ### 0.2.8 (2026-03-15)
 * **Bugfix:** jsonConfig Tunnel-Tabelle: `items` muss Array mit `attr`-Feldern sein (nicht Objekt)

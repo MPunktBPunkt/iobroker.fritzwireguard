@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.8",
+    "version": "0.2.9",
     "news": {
+      "0.2.9": {
+        "en": "Debug: added console.log + uncaughtException handler to trace startup crash; GitHub URLs to lowercase",
+        "de": "Debug: console.log + uncaughtException Handler zum Aufspueren des Startup-Crashs; GitHub URLs in Kleinschreibung"
+      },
       "0.2.8": {
         "en": "Bugfix: jsonConfig table items must be array with attr fields, not object with key names",
         "de": "Bugfix: jsonConfig Tunnel-Tabelle items muss Array mit attr-Feldern sein, kein Objekt mit Key-Namen"

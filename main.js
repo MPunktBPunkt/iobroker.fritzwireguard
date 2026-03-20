@@ -1,6 +1,16 @@
 'use strict';
 
+console.log('[FRITZWIREGUARD] main.js wird geladen...');
+process.on('uncaughtException', function(e) {
+    console.error('[FRITZWIREGUARD] uncaughtException:', e.message, e.stack);
+    process.exit(1);
+});
+process.on('unhandledRejection', function(reason) {
+    console.error('[FRITZWIREGUARD] unhandledRejection:', reason);
+});
+
 const utils = require('@iobroker/adapter-core');
+console.log('[FRITZWIREGUARD] adapter-core geladen, utils.Adapter:', typeof utils.Adapter);
 const http        = require('http');
 const net         = require('net');
 const url         = require('url');
@@ -492,7 +502,7 @@ class FritzWireguard extends utils.Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.8'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.9'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {
@@ -780,8 +790,10 @@ class FritzWireguard extends utils.Adapter {
     }
 }
 
+// adapter-core v3: startAdapter statt direktem new
 if (require.main !== module) {
     module.exports = options => new FritzWireguard(options);
 } else {
+    console.log('[FRITZWIREGUARD] Starte als Hauptmodul...');
     new FritzWireguard();
 }
