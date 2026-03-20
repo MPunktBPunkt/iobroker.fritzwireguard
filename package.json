@@ -1,6 +1,6 @@
 {
   "name": "iobroker.fritzwireguard",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "ioBroker Adapter: WireGuard VPN zu FritzBox via TR-064",
   "author": "MPunktBPunkt",
   "license": "MIT",

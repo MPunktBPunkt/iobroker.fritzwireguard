@@ -492,7 +492,7 @@ class FritzWireguard extends utils.Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.7'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.8'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {

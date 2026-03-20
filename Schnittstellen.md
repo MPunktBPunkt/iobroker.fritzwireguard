@@ -1,6 +1,6 @@
 # Schnittstellen.md — iobroker.fritzwireguard
 
-> Letzte Aktualisierung: 2026-03-15 | Version: 0.2.7
+> Letzte Aktualisierung: 2026-03-15 | Version: 0.2.8
 
 ---
 

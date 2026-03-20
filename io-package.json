@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.7",
+    "version": "0.2.8",
     "news": {
+      "0.2.8": {
+        "en": "Bugfix: jsonConfig table items must be array with attr fields, not object with key names",
+        "de": "Bugfix: jsonConfig Tunnel-Tabelle items muss Array mit attr-Feldern sein, kein Objekt mit Key-Namen"
+      },
       "0.2.7": {
         "en": "Root fix: adapter-core v3 requires utils.Adapter not destructured Adapter import",
         "de": "Root-Fix: adapter-core v3 erfordert utils.Adapter statt destrukturiertem Adapter-Import"
