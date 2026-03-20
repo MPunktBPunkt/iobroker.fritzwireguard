@@ -502,7 +502,7 @@ class FritzWireguard extends utils.Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.9'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.10'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {
@@ -742,51 +742,37 @@ class FritzWireguard extends utils.Adapter {
     }
 
     onUnload(callback) {
-        // Sicherheits-Timeout: callback IMMER nach 3s aufrufen
-        // verhindert SIGKILL durch ioBroker bei haengendem onUnload
-        const done = (() => {
-            let called = false;
-            return () => { if (!called) { called = true; callback(); } };
-        })();
-        const safetyTimer = setTimeout(done, 8000); // stopTimeout=10s, wir rufen vorher auf
-
-        (async () => {
-            try {
-                if (this._pollTimer) clearInterval(this._pollTimer);
-                if (this._tunnelMgr) this._tunnelMgr.stopAll();
-
-                // HTTP-Server: alle Verbindungen aktiv schliessen
-                if (this._server) {
-                    try {
-                        // Node 18+ hat closeAllConnections()
-                        if (typeof this._server.closeAllConnections === 'function') {
-                            this._server.closeAllConnections();
-                        }
-                        this._server.close();
-                    } catch (_) {}
-                }
-
-                // WireGuard trennen (mit eigenem Timeout)
-                const wgDisconnect = this.config && this.config.wgDisconnectOnStop;
-                if (wgDisconnect) {
-                    await Promise.race([
-                        this._disconnectWg(),
-                        new Promise(r => setTimeout(r, 3000))
-                    ]);
-                }
-
-                // Temp-Config loeschen
-                if (this._wgCfgPath && fs.existsSync(this._wgCfgPath)) {
-                    try { fs.unlinkSync(this._wgCfgPath); } catch (_) {}
-                }
-            } catch (e) {
-                const l = this.log;
-                if (l) l.warn('[SYSTEM] onUnload Fehler: ' + e.message);
-            } finally {
-                clearTimeout(safetyTimer);
-                done();
+        // callback SOFORT aufrufen - kein async, kein warten
+        // ioBroker hat sehr kurzen Timeout (< 1s bei force-stop)
+        // Alles synchron + fire-and-forget
+        try {
+            if (this._pollTimer) { clearInterval(this._pollTimer); this._pollTimer = null; }
+            if (this._tunnelMgr) { this._tunnelMgr.stopAll(); }
+            if (this._server) {
+                try {
+                    if (typeof this._server.closeAllConnections === 'function')
+                        this._server.closeAllConnections();
+                    this._server.close();
+                } catch (_) {}
+                this._server = null;
             }
-        })();
+            // Temp-Config loeschen (synchron)
+            if (this._wgCfgPath) {
+                try {
+                    if (fs.existsSync(this._wgCfgPath)) fs.unlinkSync(this._wgCfgPath);
+                } catch (_) {}
+            }
+        } catch (_) {}
+
+        // callback sofort - VOR wg-quick down (der laeuft fire-and-forget)
+        callback();
+
+        // wg-quick down als fire-and-forget NACH callback
+        const wgDisconnect = this.config && this.config.wgDisconnectOnStop;
+        const cfgPath = this._wgCfgPath;
+        if (wgDisconnect && cfgPath) {
+            exec('wg-quick down ' + cfgPath + ' 2>/dev/null', () => {});
+        }
     }
 }
 

@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.9",
+    "version": "0.2.10",
     "news": {
+      "0.2.10": {
+        "en": "Root fix: onUnload calls callback() immediately and synchronously - wg-quick down runs fire-and-forget after callback",
+        "de": "Root-Fix: onUnload ruft callback() sofort und synchron auf - wg-quick down laeuft fire-and-forget nach callback"
+      },
       "0.2.9": {
         "en": "Debug: added console.log + uncaughtException handler to trace startup crash; GitHub URLs to lowercase",
         "de": "Debug: console.log + uncaughtException Handler zum Aufspueren des Startup-Crashs; GitHub URLs in Kleinschreibung"
