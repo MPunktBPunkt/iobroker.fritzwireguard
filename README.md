@@ -1,6 +1,6 @@
 # ioBroker FritzWireguard Adapter
 
-[![Version](https://img.shields.io/badge/version-0.2.6-blue.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
+[![Version](https://img.shields.io/badge/version-0.2.7-blue.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D16-brightgreen.svg)](https://nodejs.org)
 [![Platform](https://img.shields.io/badge/platform-Linux-lightgrey.svg)](https://github.com/MPunktBPunkt/iobroker.FritzWireguard)
@@ -9,6 +9,9 @@ Verbindet ioBroker via **WireGuard VPN** mit einer entfernten FritzBox. Der Adap
 Netzwerkgeräte, WAN-Status und FritzBox-Infos als ioBroker-Datenpunkte bereit und ermöglicht
 über einen integrierten **TCP Tunnel Manager**, einzelne Adapter selektiv mit Geräten im
 entfernten Netz zu verbinden — ohne den restlichen Traffic anderer Adapter zu beeinflussen.
+
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-00457C.svg?logo=paypal)](https://www.paypal.com/donate/?business=martin%40bchmnn.de&currency_code=EUR)
 
 ---
 
@@ -196,20 +199,24 @@ Im Browser öffnen: `http://<ioBroker-IP>:8094/`
 
 ## Changelog
 
-### 0.2.6 (2026-03-15)
+### 0.2.7 (2026-03-15)
+* **Root-Fix:** `const { Adapter } = require('@iobroker/adapter-core')` ist in adapter-core v3 ungültig — korrigiert zu `const utils = require(...)` + `extends utils.Adapter`
+* Dies war die Ursache aller bisherigen Startprobleme (SIGKILL, 0 MB, "not running")
+
+### 0.2.7 (2026-03-15)
 * **Bugfix:** jsonConfig Schema-Fehler — `wgConfig` war `type: "text"` mit `"multiline": true` (nicht erlaubt) → jetzt `type: "textarea"`
 * **Bugfix:** `"encrypted": true` bei `textarea` nicht erlaubt → entfernt (Verschlüsselung läuft weiterhin über `encryptedNative`)
 * **Bugfix:** Ungültige Properties in Tunnel-Tabelle entfernt (`help` in Tabellenspalten nicht unterstützt)
 * **Bugfix:** Icon-Pfad korrigiert (`fritzwireguard.svg` statt `admin/fritzwireguard.svg`)
 
-### 0.2.6
+### 0.2.7
 * **Bugfix:** SIGKILL beim Adapter-Stopp behoben — `onUnload` hat jetzt einen 3-Sekunden-Safety-Timeout, `callback()` wird immer aufgerufen
 * **Bugfix:** Offene HTTP-Verbindungen werden beim Stopp aktiv geschlossen (`closeAllConnections`)
 * **Bugfix:** `wg-quick down` wird mit 2s-Timeout abgesichert, hängt nicht mehr
 * **Bugfix:** `onReady` in `try/catch` — stille Crashes werden jetzt geloggt
 * **Bugfix:** `this.config` Guard in `_log()` — kein Crash mehr wenn config beim Logging noch undefined
 
-### 0.2.6
+### 0.2.7
 * **Bugfix:** Absturz der Einstellungsseite beim Eingeben von Benutzername/Passwort behoben
 * **Sicherheit:** FritzBox-Passwort und WireGuard-Config werden jetzt verschlüsselt im ioBroker-Store gespeichert (`encryptedNative`)
 * **Bugfix:** `this.log` in früher Initialisierungsphase gegen undefined abgesichert

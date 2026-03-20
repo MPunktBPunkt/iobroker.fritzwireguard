@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "news": {
+      "0.2.7": {
+        "en": "Root fix: adapter-core v3 requires utils.Adapter not destructured Adapter import",
+        "de": "Root-Fix: adapter-core v3 erfordert utils.Adapter statt destrukturiertem Adapter-Import"
+      },
       "0.2.6": {
         "en": "Bugfix: SYSTEM/INFO log levels used l.debug() which is filtered by ioBroker - now correctly uses l.info()",
         "de": "Bugfix: SYSTEM/INFO Log-Level nutzten l.debug() das von ioBroker gefiltert wird - jetzt korrekt l.info()"
