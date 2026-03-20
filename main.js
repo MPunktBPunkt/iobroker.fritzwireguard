@@ -511,7 +511,7 @@ class FritzWireguard extends utils.Adapter {
 
     _json(res, obj) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(obj)); }
 
-    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.12'; } }
+    _version() { try { return require('./package.json').version; } catch (_) { return '0.2.13'; } }
 
     // ── Web-UI ────────────────────────────────────────────────────────────────
     _buildUI() {
@@ -788,14 +788,15 @@ class FritzWireguard extends utils.Adapter {
     }
 }
 
-// Bewaehrtes Export-Pattern (module.parent) wie in freeair100, kostalpiko etc.
-if (module.parent) {
+// require.main !== module: korrekt fuer Node 14+ (module.parent ist deprecated)
+_dbg('require.main === module: ' + String(require.main === module));
+if (require.main !== module) {
     _dbg('Als Modul geladen - exportiere Factory');
     module.exports = options => {
         _dbg('Factory aufgerufen von ioBroker');
         return new FritzWireguard(options);
     };
 } else {
-    _dbg('Als Hauptmodul gestartet');
+    _dbg('Als Hauptmodul gestartet - direkt starten');
     new FritzWireguard();
 }

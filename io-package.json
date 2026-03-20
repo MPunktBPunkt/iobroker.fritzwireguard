@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "fritzwireguard",
-    "version": "0.2.12",
+    "version": "0.2.13",
     "news": {
+      "0.2.13": {
+        "en": "Fix: module.parent is deprecated/undefined in Node 14+ - back to require.main !== module; debug log for export path",
+        "de": "Fix: module.parent ist deprecated/undefined in Node 14+ - zurueck zu require.main !== module; Debug-Log fuer Export-Pfad"
+      },
       "0.2.12": {
         "en": "Fix: module.parent export pattern (proven in other adapters); debug in constructor; factory debug",
         "de": "Fix: module.parent Export-Pattern (bewaehrt in anderen Adaptern); Debug im Konstruktor; Factory-Debug"
